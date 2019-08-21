@@ -6,7 +6,7 @@ import mss
 import numpy as np
 import cv2
 
-from opencvDefs import getGreenCircleCenter
+from opencvDefs import getCircleCenter
 pip3 = True
 if pip3:
     try:
@@ -91,6 +91,12 @@ sprites_group = pygame.sprite.Group()
 sprites_group.add(cpuStricker)
 sprites_group.add(disk)
 
+lowerGreen = (55,   0,   0)
+upperGreen = (65, 255, 255)
+
+lowerPink = (int(295/2)-5,   0,   0)
+upperPink = (int(295/2)+5, 255, 255)
+
 running = True
 while running:
     clock.tick(FPS)
@@ -104,10 +110,11 @@ while running:
                     running = False
 
     with mss.mss() as sct:
-        monitor = {'top': 40, 'left': 120, 'width': int(width_screen-120), 'height': height_screen-300}
+        monitor = {'top': 40, 'left': 120, 'width': int(width_screen-120), 'height': height_screen-100}
         img = np.array(sct.grab(monitor))
 
-    diskCenter = getGreenCircleCenter(img)
+    diskCenter = getCircleCenter(img, lowerGreen, upperGreen)
+    cpuStrickerCenter = getCircleCenter(img, lowerPink, upperPink)
     
     cv2.imshow('OpenCv Window', img)
     if cv2.waitKey(25) & 0xFF == ord('q'):
@@ -116,7 +123,7 @@ while running:
         break
 
     disk.move()
-    cpuStricker.move(diskCenter)
+    cpuStricker.move(diskCenter, cpuStrickerCenter)
     sprites_group.draw(screen)
     pygame.display.update()
     screen.fill(black)

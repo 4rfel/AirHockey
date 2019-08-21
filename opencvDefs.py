@@ -1,13 +1,9 @@
 import cv2
 import numpy as np
 
-print(cv2.__version__)
-
-def getGreenCircleCenter(frame):
-    lowerGreen = (55,   0,   0)
-    upperGreen = (65, 255, 255)
+def getCircleCenter(frame, lower_hsv, upper_hsv):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv, lowerGreen, upperGreen)
+    mask = cv2.inRange(hsv, lower_hsv, upper_hsv)
 
     circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,2,40,param1=50,param2=10,minRadius=10,maxRadius=50)
 
@@ -25,4 +21,3 @@ def getGreenCircleCenter(frame):
             circleCenter = (i[0], i[1])
 
     return circleCenter
-

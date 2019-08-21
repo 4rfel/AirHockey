@@ -10,13 +10,16 @@ class Stricker(pygame.sprite.Sprite):
         self.xspeed = 20
         self.yspeed = 20
 
-    def move(self, diskCenter):
+    def move(self, diskCenter, strickerCenter):
         diskX = diskCenter[0]
         diskY = diskCenter[1]
 
-        if self.rect.centerx > diskX-21:
+        strickerX = strickerCenter[0]
+        strickerY = strickerCenter[1]
+
+        if strickerX > diskX-21:
             self.rect.centerx-= self.xspeed
-        elif self.rect.centerx < diskX+21:
+        elif strickerX < diskX+21:
             self.rect.centerx += self.xspeed
 
         # if self.rect.centery >= 600:

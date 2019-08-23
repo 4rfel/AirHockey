@@ -81,8 +81,8 @@ screen = pygame.display.set_mode((screen_width ,screen_height))
 
 FPS = 60
 
-disk = Disk("disk.png", screen_width, screen_height)
-cpuStricker = StrickerCPU("strickerCPU.png", (screen_width/2,700))
+disk           = Disk("disk.png", screen_width, screen_height)
+cpuStricker    = StrickerCPU("strickerCPU.png", (screen_width/2,700))
 playerStricker = StrickerPlayer("strickerPlayer.png")
 
 

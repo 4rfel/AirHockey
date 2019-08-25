@@ -83,12 +83,12 @@ FPS = 60
 
 disk           = Disk("disk.png", screen_width, screen_height)
 cpuStricker    = StrickerCPU("strickerCPU.png", (screen_width/2,700))
-playerStricker = StrickerPlayer("strickerPlayer.png")
+# playerStricker = StrickerPlayer("disk.png")
 
 
 sprites_group = pygame.sprite.Group()
 sprites_group.add(cpuStricker)
-sprites_group.add(playerStricker)
+# sprites_group.add(playerStricker)
 sprites_group.add(disk)
 
 lowerGreen = (55,   0,   0)
@@ -104,6 +104,9 @@ running = True
 previous_center = None
 diskCenter = None
 first_pass = True
+
+line_right =  ((0           , 0), (0           , screen_height))
+line_left  = ((screen_width, 0), (screen_width, screen_height))
 
 while running:
     clock.tick(FPS)
@@ -124,11 +127,25 @@ while running:
     previous_center = diskCenter
     diskCenter = get_circle_center(img, lowerGreen, upperGreen)
     cpuStrickerCenter = get_circle_center(img, lowerPink, upperPink)
+    draw_walls(img, screen_width, screen_height)
+
     if not first_pass:
-        line2 = draw_path_prediction(img, previous_center, diskCenter)
-        line11 = (0           ,y_horizontal_line)
+        line2, aproximando, v = draw_path_prediction(img, previous_center, diskCenter)
+        line11 = (0           , y_horizontal_line)
         line12 = (screen_width, y_horizontal_line)
-        intercection_point = line_intersection(img, (line11, line12), line2)
+        intercection_point = line_intersection(img, (line11, line12), line2, aproximando)
+        intercection_point_right = line_intersection(img, line_left,  line2, aproximando)
+        intercection_point_left  = line_intersection(img, line_right, line2, aproximando)
+        if intercection_point_right[1] > intercection_point_left[1]:
+            point3, aproximando = draw_path_prediction2(img, intercection_point_right, v)
+            cpuStricker.move(cpuStrickerCenter, intercection_point_right)
+        else:
+            point3, aproximando = draw_path_prediction2(img, intercection_point_left, v)
+        # intercection_point = line_intersection(img, (line11, line12), line3, aproximando)
+        cpuStricker.move(cpuStrickerCenter, point3)
+
+
+
     else:
         first_pass = False
 
@@ -139,8 +156,7 @@ while running:
         break
 
     disk.move(screen_width, screen_height)
-    playerStricker.move()
-    # cpuStricker.move(diskCenter, cpuStrickerCenter)
+    # playerStricker.move()
     sprites_group.draw(screen)
     pygame.display.update()
     screen.fill(black)

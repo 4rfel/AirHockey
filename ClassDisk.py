@@ -11,6 +11,7 @@ class Disk(pygame.sprite.Sprite):
         self.yspeed = 10
 
     def move(self, screen_width, screen_height):
+        # self.rect.center = pygame.mouse.get_pos()
         if self.rect.left > 0 and self.rect.right < screen_width:
             self.rect.centerx += self.xspeed
         else:
@@ -22,7 +23,6 @@ class Disk(pygame.sprite.Sprite):
         else:
             self.yspeed = -self.yspeed
             self.rect.centery += self.yspeed
-        # print(f"xspeed: {self.xspeed} \nyspeed: {self.yspeed}\n")
 
     # def change_speed(self):
     #     self.xspeed = 5

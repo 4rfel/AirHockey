@@ -17,12 +17,12 @@ if pip3:
     finally:
         import mss
 
-    try:
-        import cv2
-    except ImportError:
-        call(['pip3', 'install', "python-opencv==3.4.2.17"])
-    finally:
-        import cv2
+    # try:
+    #     import cv2
+    # except ImportError:
+    #     call(['pip3', 'install', "python-opencv==3.4.2.17"])
+    # finally:
+    #     import cv2
 
     try:
         import clock

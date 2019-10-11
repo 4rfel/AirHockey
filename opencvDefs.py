@@ -63,9 +63,10 @@ def draw_path_prediction2(frame, side_point, d):
 	m = 1000
 
 	p2 = (-d[0]*m, -d[1]*m)
+	line = (side_point, p2)
 
 	cv2.line(frame, side_point, p2, color, 3)
-	return (side_point, p2)
+	return (side_point, line)
 
 
 def line_intersection(frame, line1, line2, aproximando):

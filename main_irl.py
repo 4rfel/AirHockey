@@ -25,12 +25,12 @@ else:
     finally:
         import cv2
 
-cap = cv2.VideoCapture(0)
-screen_width = 700
-screen_height = 980
+cap = cv2.VideoCapture(1)
+screen_width = 640
+screen_height = 480
 
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 lowerGreen = (55,   0,   0)
 upperGreen = (65, 255, 255)
@@ -46,12 +46,11 @@ previous_center = None
 diskCenter = None
 first_pass = True
 
-line_right =  ((0           , 0), (0           , screen_height))
+line_right =  ((0          , 0), (0           , screen_height))
 line_left  = ((screen_width, 0), (screen_width, screen_height))
 
 def get_position(x):
-    x = (2*point_x/screen_width - 1)*100
-    return x
+    return (2*x/screen_width - 1)*100
 
 
 # running = False
@@ -80,8 +79,9 @@ while running:
                 point3, line_3 = draw_path_prediction2(frame, intercection_point_left, v)
             intercection_point = line_intersection(frame, (line11, line12), line_3, aproximando)
         # cpuStricker.move(cpuStrickerCenter, point3)
-        k = 1
-        point_x = intercection_point[0]
+        point_x = get_position(intercection_point[0])
+        with open("position_x.txt", "w") as txt:
+            txt.write(point_x)
         
     else:
         first_pass = False

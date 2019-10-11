@@ -11,55 +11,19 @@ from opencvDefs import *
 pip3 = True
 if pip3:
     try:
-        import mss
+        import cv2
     except ImportError:
-        call(['pip3', 'install', "MSS"])
+        call(['pip3', 'install', "python-opencv==3.4.2.17"])
     finally:
-        import mss
-
-    # try:
-    #     import cv2
-    # except ImportError:
-    #     call(['pip3', 'install', "python-opencv==3.4.2.17"])
-    # finally:
-    #     import cv2
-
-    try:
-        import clock
-    except ImportError:
-        call(['pip3', 'install', "clock"])
-    finally:
-        import clock
-
-    try:
-        import pygame
-    except ImportError:
-        call(['pip3', 'install', "pygame"])
-    finally:
-        import pygame
+        import cv2
 
 else:
-
-    try:
-        import mss
-    except ImportError:
-        call(['pip', 'install', "MSS"])
-    finally:
-        import mss
-
     try:
         import cv2
     except ImportError:
         call(['pip', 'install', "python-opencv==3.4.2.17"])
     finally:
         import cv2
-
-    try:
-        import clock
-    except ImportError:
-        call(['pip', 'install', "clock"])
-    finally:
-        import clock
 
 cap = cv2.VideoCapture(0)
 screen_width = 700
@@ -85,7 +49,12 @@ first_pass = True
 line_right =  ((0           , 0), (0           , screen_height))
 line_left  = ((screen_width, 0), (screen_width, screen_height))
 
+def get_position(x):
+    x = (2*point_x/screen_width - 1)*100
+    return x
 
+
+# running = False
 while running:
 
     ret, frame = cap.read()
@@ -112,9 +81,8 @@ while running:
             intercection_point = line_intersection(frame, (line11, line12), line_3, aproximando)
         # cpuStricker.move(cpuStrickerCenter, point3)
         k = 1
-        point_cm_x = intercection_point[0]*k
-        with open("ponto_x.txt", "w") as txt:
-            txt.write(str(point_cm_x))
+        point_x = intercection_point[0]
+        
     else:
         first_pass = False
 
